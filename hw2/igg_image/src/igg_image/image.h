@@ -10,7 +10,7 @@ class Image {
   ///////////////////// Create the public interface here ///////////////////////
   Image() {};
   Image(int rows, int cols): rows_{rows}, cols_{cols}{
-    data_.reserve(cols_ * rows_);
+    data_.resize(cols_ * rows_);
   };
   int rows() const { return rows_; }
   int cols() const { return cols_; }
@@ -18,6 +18,8 @@ class Image {
   bool FillFromPgm(const std::string& file_name);
   void WriteToPgm(const std::string& file_name);
   std::vector<float> ComputeHistogram(int bins);
+  void DownScale(int scale);
+  void UpScale(int scale);
 
  private:
   int rows_ = 0;

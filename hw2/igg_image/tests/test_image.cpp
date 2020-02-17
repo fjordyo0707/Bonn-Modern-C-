@@ -7,13 +7,13 @@ using namespace igg;
 TEST(TestImage, InitFromNumber) {
     Image image(512, 512);
     EXPECT_EQ(512, image.rows());
-    EXPECT_EQ(512, image.rows());
+    EXPECT_EQ(512, image.cols());
 }
 
 TEST(TestImage, InitFromFile) {
     Image image;
         
-    EXPECT_EQ(true, image.FillFromPgm("/home/fjord/Desktop/Modern C++/HW/hw2/igg_image/data/lena.ascii.pgm"));
+    EXPECT_EQ(true, image.FillFromPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena.ascii.pgm"));
 
     for (int i = 0; i < image.rows(); i++){
         for (int j = 0; j < image.cols(); j++){
@@ -21,7 +21,7 @@ TEST(TestImage, InitFromFile) {
         }
     }
 
-    image.WriteToPgm("/home/fjord/Desktop/Modern C++/HW/hw2/igg_image/data/lenatoblack.pgm");
+    image.WriteToPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lenatoblack.pgm");
 }
 
 TEST(TestImage, InitFromFileFail) {
@@ -32,7 +32,7 @@ TEST(TestImage, InitFromFileFail) {
 
 TEST(TestImage, ComputeHistogramSum) {
     Image image;
-    image.FillFromPgm("/home/fjord/Desktop/Modern C++/HW/hw2/igg_image/data/lena.ascii.pgm");
+    image.FillFromPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena.ascii.pgm");
 
     std::vector<float> histogram = image.ComputeHistogram(4);
 
@@ -42,9 +42,20 @@ TEST(TestImage, ComputeHistogramSum) {
 
 TEST(TestImage, ComputeHistogramNoBin) {
     Image image;
-    image.FillFromPgm("/home/fjord/Desktop/Modern C++/HW/hw2/igg_image/data/lena.ascii.pgm");
+    image.FillFromPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena.ascii.pgm");
 
     std::vector<float> histogram = image.ComputeHistogram(0);
 
     EXPECT_EQ(0, int (histogram.size()) );
+}
+
+TEST(TestImage, TestDownScale) {
+    Image image;
+    image.FillFromPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena.ascii.pgm");
+
+    image.DownScale(2);
+    image.WriteToPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena_down2.pgm");
+    
+    EXPECT_EQ(256, image.rows());
+    EXPECT_EQ(256, image.cols());
 }

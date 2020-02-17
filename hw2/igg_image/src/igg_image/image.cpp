@@ -35,7 +35,7 @@ namespace igg{
           std::cout<< "The data is processed wrong."<<std::endl;
   }
 
-  std::vector<float> Image::ComputeHistogram(int bins){
+  std::vector<float> Image::ComputeHistogram(int bins) {
       std::vector<float> histogram(bins, 0);
       if (bins==0)
           return histogram;
@@ -49,10 +49,21 @@ namespace igg{
       return histogram;
   }
 
+  void Image::DownScale(int scale){
+      int re_cols_ = cols_ / scale;
+      int re_rows_ = rows_ / scale;
+      std::vector<int> resized_data(re_cols_ * re_rows_, 0);
 
+      for(int i = 0; i < re_rows_; i++){
+          for(int j = 0; j < re_cols_; j++){
+              resized_data[i * re_cols_ + j] = at(i * scale, j * scale);
+          }
+      }
 
-
-
+      data_ = resized_data;
+      rows_ = re_rows_;
+      cols_ = re_cols_;
+  }
 
 
 
