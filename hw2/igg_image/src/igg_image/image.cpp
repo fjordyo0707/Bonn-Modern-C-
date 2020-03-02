@@ -24,7 +24,7 @@ namespace igg{
     return true;
   }
 
-  void Image::WriteToPgm(const std::string& file_name){
+  void Image::WriteToPgm(const std::string& file_name) const {
       io_tools::ImageData temp_data = {rows_, cols_, max_val_, data_};
 
       bool write_sucessful = io_tools::WriteToPgm(temp_data, file_name);
@@ -35,7 +35,7 @@ namespace igg{
           std::cout<< "The data is processed wrong."<<std::endl;
   }
 
-  std::vector<float> Image::ComputeHistogram(int bins) {
+  std::vector<float> Image::ComputeHistogram(int bins) const {
       std::vector<float> histogram(bins, 0);
       if (bins==0)
           return histogram;
@@ -65,7 +65,21 @@ namespace igg{
       cols_ = re_cols_;
   }
 
+  void Image::UpScale(int scale){
+    int re_cols_ = cols_ * scale;
+    int re_rows_ = rows_ * scale;
+    std::vector<int> resized_data(re_cols_ * re_rows_, 0);
 
+    for(int i = 0; i < re_rows_; i++){
+       for(int j = 0; j < re_cols_; j++){
+           resized_data[i * re_cols_ + j] = at(i / scale, j / scale);
+       }
+    }
+
+    data_ = resized_data;
+    rows_ = re_rows_;
+    cols_ = re_cols_;
+  }
 
 
 

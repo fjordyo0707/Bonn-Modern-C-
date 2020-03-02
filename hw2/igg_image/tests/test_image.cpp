@@ -59,3 +59,14 @@ TEST(TestImage, TestDownScale) {
     EXPECT_EQ(256, image.rows());
     EXPECT_EQ(256, image.cols());
 }
+
+TEST(TestImage, TestUpScale) {
+    Image image;
+    image.FillFromPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena.ascii.pgm");
+
+    image.UpScale(2);
+    image.WriteToPgm("/home/fjord/Desktop/Modern C++/Bonn-Modern-C++/hw2/igg_image/data/lena_up2.pgm");
+    
+    EXPECT_EQ(1024, image.rows());
+    EXPECT_EQ(1024, image.cols());
+}
