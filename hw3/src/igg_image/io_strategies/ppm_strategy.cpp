@@ -31,38 +31,42 @@ ImageData PpmIoStrategy::Read(const std::string& file_name) const {
     bool is_read_image_size = false;
     bool is_read_max_val = false;
 
-    while(!is_read_max_val) {
-        std::getline(file, line);
+    if(file.is_open()){
+        while(!is_read_max_val) {
+            std::getline(file, line);
 
-        if(line[0] == 'P')
-            continue;
+            if(line[0] == 'P')
+                continue;
 
-        if(line[0] == '#')
-            continue;
-        
-        if(!is_read_image_size){
-            std::stringstream iss(line);
-            iss >> image_data.cols >> image_data.rows;
-            is_read_image_size = true;
-        } else if (!is_read_max_val){
-            std::stringstream iss(line);
-            iss >> image_data.max_val;
-            is_read_max_val = true;
+            if(line[0] == '#')
+                continue;
+
+            if(!is_read_image_size){
+                std::stringstream iss(line);
+                iss >> image_data.cols >> image_data.rows;
+                is_read_image_size = true;
+            } else if (!is_read_max_val){
+                std::stringstream iss(line);
+                iss >> image_data.max_val;
+                is_read_max_val = true;
+            }
         }
-    }
 
-    image_data.data.resize(3);
-    for(auto& ch: image_data.data)
-        ch.resize(image_data.cols * image_data.rows);
+        image_data.data.resize(3);
+        for(auto& ch: image_data.data)
+            ch.resize(image_data.cols * image_data.rows);
     
-    int i = 0;
-    while(!file.eof()){
-        file >> image_data.data[0][i];
-        file >> image_data.data[1][i];
-        file >> image_data.data[2][i];
-        ++i;
+        int i = 0;
+        while(!file.eof()){
+            file >> image_data.data[0][i];
+            file >> image_data.data[1][i];
+            file >> image_data.data[2][i];
+            ++i;
+        }
+        file.close();
+    } else {
+
     }
-    file.close();
     return image_data;
 }
 

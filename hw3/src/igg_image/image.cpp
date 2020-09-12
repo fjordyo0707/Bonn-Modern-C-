@@ -1,4 +1,5 @@
 #include "image.h"
+#include <iostream>
 
 namespace igg{
     
@@ -40,20 +41,20 @@ namespace igg{
   }
 
   bool Image::ReadFromDisk(const std::string& file_name){
-      const ImageData my_image_data = my_strategy_.Read(file_name);
-      rows_ = my_image_data.rows;
-      cols_ = my_image_data.cols;
-      max_val_ = my_image_data.max_val;
-      data_.resize(rows_ * cols_);
-
-      for(int i = 0; i < rows_ *  cols_; i++){
-          data_[i].red = my_image_data.data[0][i];
-          data_[i].green = my_image_data.data[1][i];
-          data_[i].blue = my_image_data.data[2][i];
-      }
-
+    const ImageData my_image_data = my_strategy_.Read(file_name);
     if(my_image_data.data.empty())
-        return false;
+      return false;
+    rows_ = my_image_data.rows;
+    cols_ = my_image_data.cols;
+    max_val_ = my_image_data.max_val;
+    data_.resize(rows_ * cols_);
+  
+    for(int i = 0; i < rows_ *  cols_; i++){
+        data_[i].red = my_image_data.data[0][i];
+        data_[i].green = my_image_data.data[1][i];
+        data_[i].blue = my_image_data.data[2][i];
+    }
+
 
     return true;
   }
